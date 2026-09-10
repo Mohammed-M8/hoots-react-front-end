@@ -52,6 +52,12 @@ const App = () => {
     navigate('/hoots');
   };
 
+const handleUpdateHoot = async (hootId, hootFormData) => {
+  const updatedHoot = await hootService.update(hootId, hootFormData);
+  setHoots(hoots.map((hoot) => (hootId === hoot._id ? updatedHoot : hoot)));
+  navigate(`/hoots/${hootId}`);
+};
+
   return (
     <>
       <NavBar />
@@ -60,8 +66,12 @@ const App = () => {
         {user ? (
           <>
             <Route path='/hoots' element={<Hootlist hoots={hoots} />} />
-            <Route path='/hoots/new' element={<HootForm handleAddHoot={handleAddHoot} />} />
+            <Route path='/hoots/new' element={<HootForm handleAddHoot={handleAddHoot}  />} />
             <Route path='/hoots/:hootId' element={<HootDetails handleDeleteHoot={handleDeleteHoot} />} />
+            <Route
+              path='/hoots/:hootId/edit'
+              element={<HootForm handleUpdateHoot={handleUpdateHoot} />}
+            />
           </>
         ) : (
           <>

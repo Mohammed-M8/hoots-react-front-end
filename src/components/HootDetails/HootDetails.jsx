@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import * as hootService from '../../services/hootService'
 import * as commentService from '../../services/commentService'
 import CommentForm from "../CommentForm/CommentForm";
@@ -47,6 +47,7 @@ export default function HootDetails({ handleDeleteHoot }) {
                     </p>
                     {hoot.author._id === user._id && (
                         <>
+                            <Link to={`/hoots/${hootId}/edit`}>Edit</Link>
                             <button onClick={() => handleDeleteHoot(hootId)}>Delete</button>
                         </>
                     )}
