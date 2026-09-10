@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 
 // Components
 import NavBar from './components/NavBar/NavBar';
@@ -14,8 +14,11 @@ import { UserContext } from './contexts/UserContext';
 //Services
 import * as hootService from './services/hootService';
 import HootDetails from './components/HootDetails/HootDetails';
+import HootForm from './components/HootForm/HootForm';
 
 const App = () => {
+
+  const navigate = useNavigate();
   const { user } = useContext(UserContext)
   const [hoots, setHoots] = useState([])
   useEffect(() => {
@@ -33,6 +36,14 @@ const App = () => {
 
   }, [user])
 
+
+  
+  const handleAddHoot = async (hootFormData) => {
+    const newHoot = await hootService.create(hootFormData);
+    setHoots([newHoot, ...hoots]);
+    navigate('/hoots');
+  };
+
   return (
     <>
       <NavBar />
@@ -41,6 +52,7 @@ const App = () => {
         {user ? (
           <>
             <Route path='/hoots' element={<Hootlist hoots={hoots} />} />
+            <Route path='/hoots/new' element={<HootForm handleAddHoot={handleAddHoot} />} />
             <Route path='/hoots/:hootId' element={<HootDetails />} />
           </>
         ) : (
