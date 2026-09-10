@@ -40,5 +40,18 @@ const create = async (hootFormData) => {
     }
 };
 
+const deleteHoot = async (hootId) => {
+    try {
+        await fetch(`${BASE_URL}/${hootId}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-export { index, show, create }
+
+export { index, show, create, deleteHoot as delete }
